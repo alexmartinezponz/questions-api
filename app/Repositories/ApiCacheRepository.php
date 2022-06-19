@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Repositories\Interfaces\IApi;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use App\Helpers\ApiHelper;
 
@@ -19,7 +20,10 @@ class ApiCacheRepository implements IApi
 
     public function getDataCached($params)
     {
-        return Cache::tags($this->prefixTag)->remember("{$this->prefixTag}.get.{$params['tagged']}", $this->timeCache, function () use ($params) {
+        $fromdate = !empty($params['fromdate']) ? $params['fromdate'] : Carbon::now()->startOfMonth()->format('Y-m-d');
+        $todate = !empty($params['todate']) ? $params['todate'] : Carbon::now()->format('Y-m-d');
+
+        return Cache::tags($this->prefixTag)->remember("{$this->prefixTag}.get.{$params['tagged']}{$fromdate}{$todate}", $this->timeCache, function () use ($params) {
             return $this->api_helper->apiCall($params);
         });
     }
