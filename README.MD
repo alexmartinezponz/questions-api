@@ -9,7 +9,7 @@ Project is configured to work with redis using the public api https://api.stacke
 - Create database "questions-api".
 - Run migrations with command "php artisan migrate".
 - Run seeders "php artisan db:seed" in order to create a new user and a Bearer token.
-- Use User token to make calls to the api.
+- Use User <i>api_token</i> to make calls to the api.
 
 #ENDPOINTS
 
